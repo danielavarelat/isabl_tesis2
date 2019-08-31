@@ -1,0 +1,16 @@
+www.{$DOMAIN_NAME} {
+    redir https://danielaisabl2.com
+}
+
+{$DOMAIN_NAME} {
+    root /var/www/html
+
+    proxy / django:5000 {
+        transparent
+        except /media
+    }
+
+    log stdout
+    errors stdout
+    gzip
+}

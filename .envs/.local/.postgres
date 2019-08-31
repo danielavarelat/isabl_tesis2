@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=isabl_tesis2
+POSTGRES_USER=QqhbbgRdYVldjpBbrKCZXNukueWuljRp
+POSTGRES_PASSWORD=nTQuEj4pC5NFJcYQesmrtsIGvkj1UcGKiT022tAoRk7HKvDDPLoPEgy8jCECb1BI

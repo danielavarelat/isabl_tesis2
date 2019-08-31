@@ -1,0 +1,20 @@
+# General
+# ---------------------------------------------------------------------------
+USE_DOCKER=yes
+
+# Redis
+# ---------------------------------------------------------------------------
+REDIS_URL=redis://redis:6379/0
+
+# Email
+# ------------------------------------------------------------------------------
+DJANGO_SERVER_EMAIL=noreply@isabl.io
+MAILGUN_API_KEY=898ca80e-1bf57f32
+MAILGUN_DOMAIN=new.danielaisabl2.com
+
+# Celery
+# ---------------------------------------------------------------------------
+
+# Flower
+CELERY_FLOWER_USER=UEvUpcXPikOcZoEwtfBtzdTWdOTvWSzp
+CELERY_FLOWER_PASSWORD=SUYGTqh6BBar0KM5ZeXISllq46hBOwUcYSt8UOH0fsBf6n2F7MjeYBMmcyjlUcqZ

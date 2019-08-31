@@ -1,0 +1,3 @@
+[submodule "requirements/isabl_api"]
+	path = requirements/isabl_api
+	url = git@github.com:isabl-io/api.git
