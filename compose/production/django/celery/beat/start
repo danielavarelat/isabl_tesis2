@@ -5,4 +5,7 @@ set -o pipefail
 set -o nounset
 
 rm -f ./celerybeat.pid
+
+python /app/manage.py migrate django_celery_beat
+
 celery -A isabl_tesis2.taskapp beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler

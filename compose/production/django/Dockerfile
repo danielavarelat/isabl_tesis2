@@ -49,10 +49,9 @@ RUN \
 COPY ./requirements /requirements
 RUN pip install --no-cache-dir -r /requirements/production.txt
 
-# you may want to consider this, however need to figure out how to serve media files
-# COPY . /app
-# RUN chown -R django /app
-# USER django
+COPY . /app
+RUN chown -R django /app
+USER django
 
 WORKDIR /app
 ENTRYPOINT ["/entrypoint"]

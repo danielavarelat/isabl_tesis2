@@ -1,5 +1,6 @@
 from .base import *  # noqa
 from .base import env
+import requests
 
 # GENERAL
 # ------------------------------------------------------------------------------
@@ -12,8 +13,8 @@ ALLOWED_HOSTS = [
     "localhost",
     "0.0.0.0",
     "127.0.0.1",
+    "*",
 ]
-
 # CACHES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
@@ -82,16 +83,7 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 
 # https://isabl-io.github.io/docs/#/api/settings
 ISABL_SETTINGS = {
-    "SYSTEM_ID_PREFIX": "EIA",
-    "CLIENT_SETTINGS": {
-        "INSTALLED_APPLICATIONS": [
-            "isabl_apps.apps.bwa_mem.apps.BwaMemGRCh37",
-            "isabl_apps.apps.qc_data.apps.QualityControlGRCh37",
-            "isabl_apps.apps.strelka.apps.StrelkaGRCh37",
-            "isabl_apps.apps.facets.apps.FacetsGRCh37",
-            "isabl_apps.apps.cowsay.apps.CowSayGRCh37",
-        ],
-    },
+    "SYSTEM_ID_PREFIX": "EIA"
 }
 
 
