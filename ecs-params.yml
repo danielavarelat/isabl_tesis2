@@ -1,0 +1,23 @@
+version: '3'
+task_definition:
+  ecs_network_mode: bridge
+  services:
+    django:
+      mem_limit: 240Mi
+    postgres:
+      mem_limit: 100Mi
+    redis:
+      mem_limit: 100Mi
+    celeryworker:
+      mem_limit: 228Mi
+    celerybeat:
+      mem_limit: 128Mi
+    flower:
+      mem_limit: 100Mi
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets: 
+        - subnet-0f110f9430ce8f0a3
+      security_groups: 
+        - sg-0660019bb66414db0

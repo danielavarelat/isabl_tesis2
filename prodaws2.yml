@@ -1,0 +1,118 @@
+version: '3'
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: 404332397563.dkr.ecr.us-east-2.amazonaws.com/isabl_tesis2_production_django 
+    links:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: logs_cluster
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: django
+
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: 404332397563.dkr.ecr.us-east-2.amazonaws.com/isabl_tesis2_production_postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+      - local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: logs_cluster
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: postgres
+
+  redis:
+    image: 404332397563.dkr.ecr.us-east-2.amazonaws.com/redis:3.2
+    ports:
+      - "6379:6379"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: logs_cluster
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: redis
+
+  celeryworker:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: 404332397563.dkr.ecr.us-east-2.amazonaws.com/isabl_tesis2_production_celeryworker
+    links:
+      - redis
+      - postgres
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: logs_cluster
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: celeryworker
+    command: /start-celeryworker
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: 404332397563.dkr.ecr.us-east-2.amazonaws.com/isabl_tesis2_production_celerybeat
+    links:
+      - redis
+      - postgres
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: logs_cluster
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: celerybeat
+    command: /start-celerybeat
+
+  flower:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: 404332397563.dkr.ecr.us-east-2.amazonaws.com/isabl_tesis2_production_flower
+    links:
+      - redis
+      - postgres
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "5555:5555"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: logs_cluster
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: flower
+    command: /start-flower
+
